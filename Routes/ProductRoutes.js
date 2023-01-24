@@ -139,6 +139,21 @@ productRoute.post(
   })
 );
 
+//update Stock quatity
+productRoute.put("/stock/:id",protect,asyncHandler(async(req,res)=>{
+ const product = await Product.findById(req.body.id);
+ 
+ if(product){
+  product.countInStock = product.countInStock - req.body.qty;
+  const updatedProduct = product.save();
+  res.json(updatedOrder);
+ }else{
+  res.status(404);
+  throw new Error("Product not found");
+ }
+
+}));
+
 // UPDATE PRODUCT
 productRoute.put(
   "/:id",
